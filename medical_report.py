@@ -112,11 +112,15 @@ class MedicalReport(Toplevel):
        self.text_box.insert(END, content)
        text_file.close()
 
-    def sql_insert(self, con, entities):
+    def sql_insert_BenhNhan(self, con, entities):
         cursorObj = con.cursor()
-        cursorObj.execute('INSERT INTO DanhSachPhieuKhamBenh(ID,NAME,SEX,DOB,JOB,PHONE,CHECKDAY,ADDRESS,REASON,HISTORY,OTHERHIST,ALLERGY,PLAN) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', entities)
+        cursorObj.execute('INSERT INTO BenhNhan(PATIENTID,NAME,SEX,DOB,JOB,PHONE,ADDRESS,REASON,HISTORY,OTHERHIST,ALLERGY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', entities)
         con.commit()
-        con.close()
+
+    def sql_insert_PhieuKhamBenh(self, con, entities):
+        cursorObj = con.cursor()
+        cursorObj.execute('INSERT INTO PhieuKhamBenh(ID,PATIENTID,CHECKDAY,REASON,PLAN) VALUES(?, ?, ?, ?, ?)', entities)
+        con.commit()
 
     def save_Data(self):
         conn = sqlite3.connect(databaseFile)
@@ -129,6 +133,7 @@ class MedicalReport(Toplevel):
         self.text_box.get(1.0, END)
         self.sql_insert(conn, d())
         print("Data saved!")
+        conn.close()
 
     def close_window(self):
         self.destroy()
