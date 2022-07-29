@@ -22,18 +22,18 @@ class PatientLookUp(Toplevel):
         }
 
         mainlbl=Label(self, text="Thông tin bệnh nhân", fg='red', font=("Helvetica", 28, "bold italic"))
-        mainlbl.place(x=LEFTSIDE_START + 300, y=5)
+        mainlbl.place(x=50, y=5)
 
         self.initUI()
         self.title('Nha khoa Gia Định - Tra cứu thông tin bệnh nhân')
-        self.geometry("800x800+10+20")
+        self.geometry("400x250+10+20")
 
     def initUI(self):
         # Button
         findBtn = Button(self, text="Tìm bệnh nhân", fg='green', font=("Times", 15, "bold italic"), command=self.query_from_BenhNhan)
-        findBtn.place(x=LEFTSIDE_START + 330, y=750)
+        findBtn.place(x=140, y=200)
         exitBtn = Button(self, text="Thoát", fg='green', font=("Times", 15, "bold italic"), command=self.close_window)
-        exitBtn.place(x=LEFTSIDE_START + 650, y=750)
+        exitBtn.place(x=280, y=200)
         # Label and Textbox
         self.create_window_label_with_entry("Tên", LEFTSIDE_START, 50)
         self.create_window_label_with_entry("Năm sinh", LEFTSIDE_START, 80)
