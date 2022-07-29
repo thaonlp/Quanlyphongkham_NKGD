@@ -16,10 +16,8 @@ def create_fresh_database_table():
               DOB            INT     NOT NULL,
               ADDRESS        CHAR(100), 
               SEX         CHAR(10),
+              NOTE TEXT,
               JOB CHAR(20),
-              HISTORY CHAR(100),
-              OTHERHIST CHAR(100),
-              ALLERGY CHAR(100),
               PHONE CHAR(20));''') """
 
        # print("Table BenhNhan created successfully")
