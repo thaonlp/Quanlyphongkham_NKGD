@@ -2,17 +2,6 @@ import sqlite3
 import pandas as pd
 databaseFile = "hsbn.db"
 
-def show_table_column_name():
-    dat = sqlite3.connect(databaseFile)
-    query = dat.execute("SELECT * From BenhNhan")
-    cols = [column[0] for column in query.description]
-    print("Table columns ", cols)
-    #results= pd.DataFrame.from_records(data = query.fetchall(), columns = cols)
-    #print(results)
-
-
-show_table_column_name()
-
 def sql_fetch():
     con = sqlite3.connect(databaseFile)
     cursorObj = con.cursor()

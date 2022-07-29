@@ -10,7 +10,7 @@ def create_fresh_database_table():
        conn = sqlite3.connect(databaseFile)
        print("Opened database successfully")
 
-       conn.execute('''CREATE TABLE BenhNhan
+       """conn.execute('''CREATE TABLE BenhNhan
               (PATIENTID INT PRIMARY KEY     NOT NULL, 
               NAME           TEXT    NOT NULL,
               DOB            INT     NOT NULL,
@@ -20,9 +20,9 @@ def create_fresh_database_table():
               HISTORY CHAR(100),
               OTHERHIST CHAR(100),
               ALLERGY CHAR(100),
-              PHONE CHAR(20));''')
+              PHONE CHAR(20));''') """
 
-       print("Table BenhNhan created successfully")
+       # print("Table BenhNhan created successfully")
 
        conn.execute('''CREATE TABLE PhieuKhamBenh
               (ID INT PRIMARY KEY     NOT NULL,
@@ -30,7 +30,7 @@ def create_fresh_database_table():
               CHECKDAY CHAR(20),
               REASON CHAR(100),
               PLAN TEXT NOT NULL,
-              FOREIGN KEY (PATIENTID) REFERENCES BenhNhan (PATIENTID));''')
+              FOREIGN KEY (PATIENTID) REFERENCES BenhNhan (ID));''')
 
        print("Table PhieuKhamBenh created successfully")
          
