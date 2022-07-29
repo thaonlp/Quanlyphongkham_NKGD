@@ -1,5 +1,6 @@
 import sqlite3
 from tkinter import *
+from tkinter import ttk
 from tkinter import messagebox
 
 # add widgets here
@@ -12,7 +13,7 @@ class PatientLookUp(Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.name = StringVar()
-        self.birth = IntVar()
+        self.birth = StringVar()
         self.phone = StringVar()
         self.variable_text_map = {
             "Tên": self.name,
@@ -45,29 +46,56 @@ class PatientLookUp(Toplevel):
         txtfld.place(x=x+LABEL_LENGTH,y=y)
 
     def query_from_BenhNhan(self):
+        query = "SELECT ID,FULLNAME,BIRTH FROM BenhNhan WHERE FIRSTNAME = '"
         name = self.variable_text_map["Tên"].get()
-        query_name = name.upper()
+        if name != "" :
+            query = query + name.upper() + "'"
+        else:
+            messagebox.showerror("Tìm bệnh nhân", "Chưa nhập tên")
         birth = self.variable_text_map["Năm sinh"].get()
-        query_birth = str(birth)
-        phone = self.variable_text_map["Năm sinh"].get()
-        query_phone = str(phone)
+        if birth != "" :
+            query += " AND BIRTH = '" + str(birth) + "'"
+        phone = self.variable_text_map["Số điện thoại"].get()
+        if phone != "":
+            query += " AND PHONE = '" + str(phone) + "'"
+
+        query += ";"
         con = sqlite3.connect(databaseFile)
-        query = "SELECT ID,FULLNAME,BIRTH FROM BenhNhan WHERE FIRSTNAME = '" + query_name + "' AND BIRTH = '" + query_birth + "';"
+        #query = "SELECT ID,FULLNAME,BIRTH FROM BenhNhan WHERE FIRSTNAME = '" + query_name + "' AND BIRTH = '" + query_birth + "' + AND PHONE = '" + query_phone + "';"
         print("Query cmd: ", query)
         cursorObj = con.cursor()
         cursorObj.execute(query)
         results = cursorObj.fetchall()
         #df = pd.read_sql(query, con)
-        print("Query database when name is ", query_name)
+
         #query1 = con.execute("SELECT * From BenhNhan")
         #colsBN = [column[0] for column in query1.description]
         # print(colsBN)
-        listbox = Listbox(self)
+        # listbox = Listbox(self)
+        s = ttk.Style()
+        s.theme_use('clam')
+        # Add a Treeview widget
+        # Create a new instance of tkinter frame
+        win = Tk()
+
+        # Set the size of the tkinter window
+        win.geometry("700x700")
+        win.title('Nha khoa Gia Định - Kết quả tìm kiếm')
+
+        tree = ttk.Treeview(win, column=("c1", "c2", "c3"), show='headings', height=20)
+
+        tree.column("# 1", anchor=CENTER)
+        tree.heading("# 1", text="ID Hồ sơ")
+        tree.column("# 2", anchor=CENTER)
+        tree.heading("# 2", text="Tên bệnh nhân")
+        tree.column("# 3", anchor=CENTER)
+        tree.heading("# 3", text="Năm sinh")
         for result in results:
-            listbox.insert(END, result)
-            # print(result)
-        # messagebox.showinfo("Kết quả tìm kiếm", result)
-        listbox.pack(fill=BOTH, expand=YES)
+            #listbox.insert(END, result)
+            #print(result)
+            tree.insert('', 'end', text="1", values=(result[0], result[1], int(result[2])))
+        tree.pack()
+        #listbox.pack(fill=BOTH, expand=YES)
         con.close()
 
     def close_window(self):
