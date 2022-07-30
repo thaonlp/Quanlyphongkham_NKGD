@@ -60,9 +60,8 @@ class PatientLookUp(Toplevel):
             query += " AND PHONE = '" + str(phone) + "'"
 
         query += ";"
-        con = sqlite3.connect(databaseFile)
-        #query = "SELECT ID,FULLNAME,BIRTH FROM BenhNhan WHERE FIRSTNAME = '" + query_name + "' AND BIRTH = '" + query_birth + "' + AND PHONE = '" + query_phone + "';"
         print("Query cmd: ", query)
+        con = sqlite3.connect(databaseFile)
         cursorObj = con.cursor()
         cursorObj.execute(query)
         results = cursorObj.fetchall()

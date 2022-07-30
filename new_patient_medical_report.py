@@ -10,7 +10,7 @@ tienSuBenh = ["Không có", "Tiểu đường", "Tim mạch", "Thận, gan, bao 
 
 databaseFile = "hsbn.db"
 
-class MedicalReport(Toplevel):
+class NewPatientMedicalReport(Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.id = StringVar()
@@ -22,7 +22,7 @@ class MedicalReport(Toplevel):
         self.checkDay = StringVar()
         self.address = StringVar()
         self.reason = StringVar()
-        self.note = StringVar()
+        self.note = []
         self.plan = StringVar()
 
         self.sex_choice = IntVar()
@@ -104,7 +104,11 @@ class MedicalReport(Toplevel):
         lbl=Label(self, text=mainLable, fg='blue', font=("Times", 15))
         lbl.place(x=x, y=y)
         for c in range(len(list_of_choices)):
-            self.create_choice(list_of_choices[c], x=x+LABEL_LENGTH, y = y + 30 * c)
+            cvar = StringVar()
+            #self.create_choice(list_of_choices[c], x=x+LABEL_LENGTH, y = y + 30 * c)
+            choice = Checkbutton(self, text=list_of_choices[c], bg='#f1faee', variable=cvar, onvalue=list_of_choices[c], offvalue='off')
+            choice.place(x=x+LABEL_LENGTH, y=y + 30 * c)
+            self.note.append(cvar)
 
     def create_text_box(self, label, x, y):
         lbl=Label(self, text=label, fg='blue', font=("Times", 15))
@@ -138,8 +142,10 @@ class MedicalReport(Toplevel):
         #for data in self.variable_text_map:
         #    content = self.variable_text_map[data].get()
         #    print(content)
+        for v in self.note:
+            if not v.get()=="off":
+                print(v.get())
         self.text_box.get(1.0, END)
-
 
         print("Data saved!")
         messagebox.showinfo("Tạo bệnh nhân mới", "Đã lưu thông tin")
